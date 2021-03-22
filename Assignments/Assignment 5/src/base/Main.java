@@ -28,6 +28,34 @@ public class Main {
     static double lemonades_price = 8.0;
     static double pretzels_price = 2.0;
 
+
+    static void serve_Customer(int x, int y, double z) {
+        pretzels(x);
+        lemonades(y);
+        tipsearned(z);
+        cashearned(x,y);
+    }
+
+    static int pretzels(int x) {
+        pretzels_available-= x;
+        return pretzels_available;
+    }
+
+    static int lemonades(int y) {
+        lemonades_available -= y;
+        return lemonades_available;
+    }
+
+    static double cashearned(int x, int y) {
+        cash += (pretzels_price * x) + (lemonades_price * y);
+        return cash;
+    }
+
+    static double tipsearned(double z) {
+        tips += z;
+        return tips;
+    }
+
     public static void main(String[] args) {
         //	Replace this with your dry inventory function!
         dry_inventory();
@@ -35,15 +63,51 @@ public class Main {
 
     static void dry_inventory() {
         // Your DRY Solution goes here!
-
-
+        // x = number of pretzels, y = number of lemonades, z = tip amount
         //Customer 1
-        pretzels_available -= 4;
-        lemonades_available -= 1;
-        cash = (lemonades_price * 1) + (pretzels_price * 4);
-        tips += 4;
+        serve_Customer(4,1, 4);
 
+        //Customer 2
+        serve_Customer(2, 3, 0);
 
+        //Customer 3
+        serve_Customer(3, 0, 0);
+
+        //Customer 4
+        serve_Customer(1, 2, 0);
+
+        //Customer 5
+        serve_Customer(0, 6, 10);
+
+        //Customer 6
+        serve_Customer(0, 4, 5);
+
+        //Customer 7
+        serve_Customer(2, 0, 0);
+
+        //Customer 8
+        serve_Customer(10, 8, 10);
+
+        //Customer 9
+        serve_Customer(6, 0, 0);
+
+        //Customer 10
+        serve_Customer(0, 1, 0);
+
+        //Customer 11
+        serve_Customer(1, 0, 0);
+
+        //Customer 12
+        serve_Customer(0, 7, 4);
+
+        //Customer 13
+        serve_Customer(2, 0, 0);
+
+        //Customer 14
+        serve_Customer(6, 3, 0);
+
+        //Customer 15
+        serve_Customer(9, 2, 3);
 
         System.out.println("Results for the hour!");
         System.out.println("Lemonades Inventory: " + lemonades_available);
@@ -51,7 +115,6 @@ public class Main {
         System.out.println("Cash: " + cash);
         System.out.println("Tips: " + tips);
 
-        System.out.print(cash);
     }
 
     static void wet_inventory() {
