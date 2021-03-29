@@ -64,6 +64,8 @@ public class Main {
     static void dry_inventory() {
         // Your DRY Solution goes here!
         // x = number of pretzels, y = number of lemonades, z = tip amount
+
+        //Dry Inventory:
         //Customer 1
         serve_Customer(4,1, 4);
 
