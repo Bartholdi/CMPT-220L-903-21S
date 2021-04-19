@@ -11,6 +11,7 @@ class Plant extends Main{
         this.needWatering = needWatering;
         this.plantFamily = plantFamily;
         this.Name = Name;
+        System.out.println("It is " +needWatering+" that the plant needs watering, The plant is a " +plantFamily+" and The name of the plant is a "+ Name);
     }
 
     public static void wateringInstruction(){
