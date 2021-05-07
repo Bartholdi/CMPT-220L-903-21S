@@ -1,11 +1,12 @@
 package base;
 
-public class Main{
+import java.util.ArrayList;
+public class test{
 
     public static class listItem{
 
         int value;
-        listItem List;
+        ArrayList<listItem> List;
 
         public listItem(int value){
 
@@ -17,30 +18,56 @@ public class Main{
         public listItem(int value, listItem list){
 
             this.value = value;
-            this.List = list;
+            this.List.add(list);
 
+        }
+
+        public void addToList(listItem item){
+
+            List.add(item);
+
+
+        }
+
+        public void deleteitem(listItem item){
+
+            for(int i =0; i< List.size(); i++){
+                if(List.get(i) == item ){
+                    List.remove(i);
+                }
+            }
         }
 
         public String toString(){
 
-            return this.value  + " " + this.List;
+            String temp = " ";
+
+            for(int i = 0; i<List.size(); i++){
+                temp += List.get(i) + "\n";
+            }
+
+            return temp;
         }
 
-    }
 
-    public static void main(String arg[]){
 
-        listItem itemOne = new listItem(5);
+        public static void main(String[] args){
 
-        listItem itemTwo = new listItem(6, itemOne);
+            listItem itemOne = new listItem(5);
 
-        System.out.println(itemOne);
-        System.out.println(itemTwo);
+            listItem itemTwo = new listItem(6, itemOne);
 
-        listItem one = new listItem(7);
+            System.out.println(itemOne);
+            System.out.println(itemTwo);
 
-        itemOne.addToList(one);
-        itemOne.deleteitem(one);
-        itemOne.toString();
+            listItem one = new listItem(7);
+
+            itemOne.addToList(one);
+            itemOne.deleteitem(one);
+            String answer = itemOne.toString();
+
+            System.out.println(answer);
+
+        }
     }
 }
