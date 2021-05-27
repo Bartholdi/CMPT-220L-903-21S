@@ -1,216 +1,175 @@
 package base;
 
-class BinarySearchTree {
+import java.util.Arrays;
+import java.util.Scanner;
 
-//Represent a node of binary tree
-public static class Node{
-int data;
-Node left;
-Node right;
+class Main{
 
-public Node(int data){
-//Assign data to the new node, set left and right children to null
-this.data = data;
-this.left = null;
-this.right = null;
-}
-}
+   public static void main(String[] args) {
 
-//Represent the root of binary tree
-public Node root;
+      //Create the tree
+      int[] a = {23,11,8,30,24,5,3,7,21};
+      int arraySize = a.length-1;
 
-public BinarySearchTree(){
-root = null;
-}
+      System.out.println("Array inputted: ");
+      for( int b : a){
+         System.out.print(b + " ");
+      }
 
-//insert() will add new node to the binary search tree
-public void insert(int data) {
-//Create a new node
-Node newNode = new Node(data);
+      BinarySearch newSearchTree = new BinarySearch();
 
-//Check whether tree is empty
-if(root == null){
-root = newNode;
-return;
-}
-else {
-//current node point to root of the tree
-Node current = root, parent = null;
+      Scanner inputScanner = new Scanner(System.in);
 
-while(true) {
-//parent keep track of the parent node of current node.
-parent = current;
+      for(int n : a) {
+         newSearchTree.insert(n);
+      }
 
-//If data is less than current's data, node will be inserted to the left of tree
-if(data < current.data) {
-current = current.left;
-if(current == null) {
-parent.left = newNode;
-return;
-}
-}
-//If data is greater than current's data, node will be inserted to the right of tree
-else {
-current = current.right;
-if(current == null) {
-parent.right = newNode;
-return;
-}
-}
-}
-}
-}
+      System.out.println();
+      System.out.println("Array in order:");
+      newSearchTree.inOrderTraversal();
 
-//minNode() will find out the minimum node
-public Node minNode(Node root) {
-if (root.left != null)
-return minNode(root.left);
-else
-return root;
-}
+      System.out.println();
 
-public Node maxNode(Node root) {
-if (root.right != null)
-return minNode(root.right);
-else
-return root;
-}
+      boolean flag = true;
+      boolean innerSwitch = true;
 
-//deleteNode() will delete the given node from the binary search tree
-public Node deleteNode(Node node, int value) {
-if(node == null){
-return null;
-}
-else {
-//value is less than node's data then, search the value in left subtree
-if(value < node.data)
-node.left = deleteNode(node.left, value);
+      do{
 
-//value is greater than node's data then, search the value in right subtree
-else if(value > node.data)
-node.right = deleteNode(node.right, value);
+         System.out.println("Please input a valid int");
+         System.out.println("0) Find the smallest element ");
+         System.out.println("1) Search for an element");
+         System.out.println("2) Get height");
+         System.out.println("3) Find the Nth largest element");
+         System.out.println("4) Find the largest element");
+         System.out.println("5) Delete an element");
+         System.out.println("6) Preorder");
+         System.out.println("7) Ordered Array");
+         System.out.println("8) Breath First Search");
+         System.out.println("9) Depth First Search");
+         System.out.println("10) Insert");
+         System.out.println("11) Quit");
 
-//If value is equal to node's data that is, we have found the node to be deleted
-else {
-//If node to be deleted has no child then, set the node to null
-if(node.left == null && node.right == null)
-node = null;
+         int number = inputScanner.nextInt();
 
-//If node to be deleted has only one right child
-else if(node.left == null) {
-node = node.right;
-}
+         switch (number) {
 
-//If node to be deleted has only one left child
-else if(node.right == null) {
-node = node.left;
-}
+            case 0:
+               System.out.println("The smallest element is " + newSearchTree.returnTheSmallest(2, newSearchTree.getRoot()).getValue());
+               break;
 
-//If node to be deleted has two children node
-else {
-//then find the minimum node from right subtree
-Node temp = minNode(node.right);
-//Exchange the data between node and temp
-node.data = temp.data;
-//Delete the node duplicate node from right subtree
-node.right = deleteNode(node.right, temp.data);
-}
-}
-return node;
-}
-}
+            case 1:
+               //search
 
-//inorder() will perform inorder traversal on binary search tree
-public void inorderTraversal(Node node) {
+               do{
+                  System.out.println("Input a value to find");
+                  int value = inputScanner.nextInt();
 
-//Check whether tree is empty
-if(root == null){
-System.out.println("Tree is empty");
-return;
-}
-else {
+                  if(value >= 0){
+                     innerSwitch = false;
+                     String toPrint = "The value " + value + " does NOT exist";
+                     if(newSearchTree.search(value)){
+                        toPrint = "The value " + value + " exists";
+                     }
+                     System.out.println(toPrint);
+                  }
+               }while(innerSwitch);
+               break;
 
-if(node.left!= null)
-inorderTraversal(node.left);
-System.out.print(node.data + " ");
-if(node.right!= null)
-inorderTraversal(node.right);
+            case 2:
+               System.out.println("The height is  " + newSearchTree.height());
+               break;
 
-}
-}
+            case 3:
+               System.out.println("Find the nth element");
+               System.out.println(newSearchTree.returnNthLargest());
 
-public void preorderTraversal(Node node) {
+               break;
 
-//Check whether tree is empty
-if(root == null){
-System.out.println("Tree is empty");
-return;
-}
-else {
+            case 4:
+               //Largest Element
+               System.out.println("The largest element is: " + newSearchTree.returnLargestElement());
+               break;
 
-   System.out.print(node.data + " ");
+            case 5:
+               //delete
+               System.out.println("Delete an element. ");
+               arraySize = arraySize-1;
 
-if(node.left!= null)
-inorderTraversal(node.left);
+               int value = inputScanner.nextInt();
+               newSearchTree.delete(value);
+               System.out.println("Deleted value " + value);
+               break;
 
-if(node.right!= null)
-inorderTraversal(node.right);
+            case 6:
+               //preorder
+               System.out.println("Pre-ordering array");
+               newSearchTree.preOrderTraversal();
+               break;
 
-}
-}
+            case 7:
+               //postorder
+               System.out.println("Post order Array");
+               newSearchTree.inOrderTraversal();
+               break;
 
-public void postorderTraversal(Node node) {
+            case 8:
+               //breath first
+               do{
+                  System.out.println("Breath First Search");
+                  System.out.println("Input a value to find");
+                  int nextValue = inputScanner.nextInt();
 
-//Check whether tree is empty
-if(root == null){
-System.out.println("Tree is empty");
-return;
-}
-else {
+                  if(nextValue >= 0){
+                     innerSwitch = false;
+                     String toPrint = "The value " + nextValue + " exists";
+                     if(newSearchTree.search(nextValue)){
+                        toPrint = "The value " + nextValue + " exists";
+                     }
+                     System.out.println(toPrint);
+                  }
+               }while(innerSwitch);
+               break;
 
+            case 9:
+               //depth first
 
+               do{
+                  System.out.println("Depth First Search");
+                  System.out.println("Input a value to find");
+                  int nextValue = inputScanner.nextInt();
 
-if(node.left!= null)
-postorderTraversal(node.left);
+                  if(nextValue >= 0){
+                     innerSwitch = false;
+                     String toPrint = "The value " + nextValue + " exists";
+                     if(newSearchTree.search(nextValue)){
+                        toPrint = "The value " + nextValue + " exists";
+                     }
+                     System.out.println(toPrint);
+                  }
+               }while(innerSwitch);
+               break;
 
-if(node.right!= null)
-postorderTraversal(node.right);
+            case 10:
+               //insert
+               System.out.println("Insert a value");
+               int newValue = inputScanner.nextInt();
+               newSearchTree.insert(newValue);
+               arraySize++;
+               break;
 
-System.out.print(node.data + " ");
+            case 11:
+               //Quit
+               System.out.println("Quitting....");
+               flag = false;
+               break;
 
-}
-}
+            default:
+               System.out.println("Type another int....");
+         }
 
+         System.out.println();
+      }while(flag);
+//       the output should be 2
 
-public static void main(String[] args) {
-
-BinarySearchTree bt = new BinarySearchTree();
-//Add nodes to the binary tree
-bt.insert(50);
-bt.insert(30);
-bt.insert(70);
-bt.insert(60);
-bt.insert(10);
-bt.insert(90);
-
-System.out.println("Binary search tree after insertion:");
-//Displays the binary tree
-bt.inorderTraversal(bt.root);
-
-Node deletedNode = null;
-//Deletes node 90 which has no child
-deletedNode = bt.deleteNode(bt.root, 90);
-System.out.println("\nBinary search tree after deleting node 90:");
-bt.inorderTraversal(bt.root);
-
-//Deletes node 30 which has one child
-deletedNode = bt.deleteNode(bt.root, 30);
-System.out.println("\nBinary search tree after deleting node 30:");
-bt.preorderTraversal(bt.root);
-
-//Deletes node 50 which has two children
-deletedNode = bt.deleteNode(bt.root, 50);
-System.out.println("\nBinary search tree after deleting node 50:");
-bt.postorderTraversal(bt.root);
-}
+   }
 }
